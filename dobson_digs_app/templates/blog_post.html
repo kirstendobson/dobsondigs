@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DobsonDigs</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var stickyNavTop = $('.bottom_nav').offset().top;
+            var stickyNav = function(){
+                var scrollTop = $(window).scrollTop();
+                if(scrollTop > stickyNavTop) {
+                    $('.bottom_nav').addClass('sticky');
+                } else {
+                    $('.bottom_nav').removeClass('sticky');
+                }
+            };
+            stickyNav();
+            $(window).scroll(function() {
+                stickyNav();
+            });
+        })
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <div class="top_nav">
+                <div class="top_nav_left">
+                    <a href="/">Home</a>
+                    <a href="">About</a>
+                    <a href="/blog">Blog</a>
+                    <!--<a href="">Contact</a>-->
+                </div>
+                <div class="top_nav_right">
+                    <a href=""><img src="{% static 'img/Logos/Pinterest.png' %}" alt="Pinterest Logo"></a>
+                    <a href=""><img src="{% static 'img/Logos/Instagram.jpg' %}" alt="Instagram Logo"></a>
+                    <a href=""><img src="{% static 'img/Logos/Facebook.png' %}" alt="Facebook Logo"></a>
+                </div>
+            </div>
+            <div class="logo">
+                <img src="{% static 'img/DobsonDigs.jpg' %}" alt="DobsonDigs Logo">
+            </div>
+            <div class="bottom_nav">
+                <a href="/"><img src="{% static 'img/Home.png' %}" alt="Home Button"></a>
+                <a href="/properties">Our Own Digs</a>
+                {% for blog_section in all_blog_sections %}
+                    <a href="/blog/section_{{ blog_section.id }}">{{ blog_section.name }}</a>
+                {% endfor %}
+            </div>         
+        </div>
+        <div class="content">
+            <div id="blog_post_content">
+                <h1>{{ blog_post.title }}</h1>
+                <img src="{{ blog_post.blog_post_img.url }}" alt="{{ blog_post.title }} Image">
+                <p>{{ blog_post.intro }}</p>
+                {% for blog_post_section in blog_post.blog_post_sections.all %}
+                <div class="blog_post_subsection">
+                    <h3>{{ blog_post_section.subtitle }}</h3>
+                    <p>{{ blog_post_section.content }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div id="right_section">
+                <div id="about">
+                    <h3>About Summary</h3>
+                    <img src="{% static 'img/square_pic.jpg' %}" alt="About Image Placeholder">
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid facere sequi consequatur officia voluptatibus esse! Minima, quaerat alias! Fuga quod nam magni corporis assumenda optio? Tempora expedita fugiat perferendis veritatis?</p>
+                    <button>Read More</button>
+                </div>
+                <div id="subscribe">
+                    <h3>Subscribe</h3>
+                    <form action="" method="post">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="f_name">First Name:</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name="f_name">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="email">Email Address:</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="email" name="email">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="submit" value="Subscribe" id="submit">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

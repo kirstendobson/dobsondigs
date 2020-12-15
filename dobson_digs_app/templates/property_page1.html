@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DobsonDigs</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style1.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <style>
+        #highlight, .highlight {
+        background-color: red;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var stickyNavTop = $('.bottom_nav').offset().top;
+            var stickyNav = function(){
+                var scrollTop = $(window).scrollTop();
+                if(scrollTop > stickyNavTop) {
+                    $('.bottom_nav').addClass('sticky');
+                } else {
+                    $('.bottom_nav').removeClass('sticky');
+                }
+            };
+            stickyNav();
+            $(window).scroll(function() {
+                stickyNav();
+            });
+            var slideCount = $('#slider ul li').length;
+            var slideWidth = $('#slider ul li').width();
+            var slideHeight = $('#slider ul li').height();
+            var sliderUlWidth = slideCount * slideWidth;
+            
+            $('#slider').css({ width: slideWidth, height: slideHeight });
+            
+            $('#slider ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });
+            
+            $('#slider ul li:last-child').prependTo('#slider ul');
+
+            function moveLeft() {
+                $('#slider ul').animate({
+                    left: + slideWidth
+                }, 200, function () {
+                    $('#slider ul li:last-child').prependTo('#slider ul');
+                    $('#slider ul').css('left', '');
+                });
+            };
+
+            function moveRight() {
+                $('#slider ul').animate({
+                    left: - slideWidth
+                }, 200, function () {
+                    $('#slider ul li:first-child').appendTo('#slider ul');
+                    $('#slider ul').css('left', '');
+                });
+            };
+
+            $('button.control_prev').click(function () {
+                moveLeft();
+            });
+
+            $('button.control_next').click(function () {
+                moveRight();
+            });
+
+            var dates = [new Date(2020, 12-1, 13), new Date(2020, 12-1, 14), new Date(2020, 12-1, 15), new Date(2020, 12-1, 21), new Date(2020, 12-1, 22), new Date(2020, 12-1, 23), new Date(2020, 12-1, 24), new Date(2020, 12-1, 25), new Date(2020, 12-1, 26), new Date(2020, 12-1, 27), new Date(2020, 12-1, 28), new Date(2020, 12-1, 29), new Date(2020, 12-1, 31), new Date(2021, 1-1, 1), new Date(2021, 1-1, 2), new Date(2021, 1-1, 3), new Date(2021, 1-1, 4), new Date(2021, 1-1, 5), new Date(2021, 1-1, 6), new Date(2021, 1-1, 7), new Date(2021, 1-1, 8), new Date(2021, 1-1, 9), new Date(2021, 1-1, 10), new Date(2021, 1-1, 11), new Date(2021, 1-1, 12)];
+
+            $( "#datepicker" ).datepicker({
+                beforeShowDay: highlightDays
+            });
+            function highlightDays(date){
+                for(var i = 0; i < dates.length; i++){
+                    if(dates[i].getTime() == date.getTime()) {
+                        return[true, 'highlight'];
+                    }
+                }
+                return[true, ''];
+            }
+        })
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <div class="top_nav">
+                <div class="top_nav_left">
+                    <a href="/">Home</a>
+                    <a href="">About</a>
+                    <a href="/blog">Blog</a>
+                    <!--<a href="">Contact</a>-->
+                </div>
+                <div class="top_nav_right">
+                    <a href=""><img src="{% static 'img/Logos/Pinterest.png' %}" alt="Pinterest Logo"></a>
+                    <a href=""><img src="{% static 'img/Logos/Instagram.jpg' %}" alt="Instagram Logo"></a>
+                    <a href=""><img src="{% static 'img/Logos/Facebook.png' %}" alt="Facebook Logo"></a>
+                </div>
+            </div>
+            <div class="logo">
+                <img src="{% static 'img/DobsonDigs.jpg' %}" alt="DobsonDigs Logo">
+            </div>
+            <div class="bottom_nav">
+                <a href="/"><img src="{% static 'img/Home.png' %}" alt="Home Button"></a>
+                <a href="/properties">Our Own Digs</a>
+                {% for blog_section in all_blog_sections %}
+                    <a href="/blog/section_{{ blog_section.id }}">{{ blog_section.name }}</a>
+                {% endfor %}
+            </div>         
+        </div>
+        <div class="content">
+            <h1>Fort Worth Bungalow</h1>
+            <div id="left" class="split">
+                <div id="slider">
+                    <button class="control_next">></button>
+                    <button class="control_prev"><</button>
+                    <ul>
+                        <li><img src="{% static 'img/fort_worth/front.png' %}" alt="Front of House"></li>
+                        <li><img src="{% static 'img/fort_worth/living_room.png' %}" alt="Living Room"></li>
+                        <li><img src="{% static 'img/fort_worth//fireplace.png' %}" alt="Fireplace in Living Room"></li>
+                        <li><img src="{% static 'img/fort_worth/dining_room.png' %}" alt="Dining Room"></li>
+                        <li><img src="{% static 'img/fort_worth/master_bed.png' %}" alt="Master Bedroom"></li>
+                        <li><img src="{% static 'img/fort_worth/bathroom.png' %}" alt="Master Bathroom"></li>
+                        <li><img src="{% static 'img/fort_worth/bedroom_2.png' %}" alt="Second Bedroom"></li>
+                        <li><img src="{% static 'img/fort_worth/bedroom_3.png' %}" alt="Third Bedroom"></li>
+                        <li><img src="{% static 'img/fort_worth/pool.jpg' %}" alt="Pool"></li>
+                        <li><img src="{% static 'img/fort_worth/pool_deck.jpg' %}" alt="Backyard"></li>
+                    </ul>
+                </div>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat est sint minus culpa nisi cum laudantium praesentium, fugit accusamus accusantium, ut cumque excepturi reiciendis assumenda dicta officiis, unde expedita nemo! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis quibusdam quasi perferendis recusandae perspiciatis minus velit, quam eum ullam, doloribus dolor dolore cupiditate labore explicabo aspernatur iure rem exercitationem mollitia.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore nesciunt quisquam distinctio, praesentium doloribus, maxime, officiis perferendis architecto quidem assumenda incidunt odio in vel fugit perspiciatis earum unde pariatur quaerat. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur dolore atque doloribus neque magnam. Nam, quae totam ullam iure ea quis, corrupti possimus qui ipsa dolorem vel provident harum ex!</p>
+            </div>
+            <div id="right" class="split">
+                <div id="right_top">
+                    <!-- Will replace calendar image with AirBnB calendar from API -->
+                    <div id="datepicker"></div>
+                    <div id="box">Date Unavailable</div>
+                    <!-- Redirect to AirBnB Listing -->
+                    <a href="https://www.airbnb.com/rooms/38658740?source_impression_id=p3_1607549683_WFHZy8T%2BNBuwTumM&guests=1&adults=1"><button>Make a Reservation</button></a>
+                </div>
+                <div id="to_do">
+                    <h3>Things to Do in Fort Worth</h3>
+                    <h4>Activities</h4>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos expedita, incidunt recusandae vero earum eos ipsa fugiat, excepturi laborum nisi iusto atque, mollitia nesciunt quas adipisci similique minus quasi nobis.</p>
+                    <a href="">Read More</a>
+                    <h4>Restaurants</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi dolore totam ab eaque eum quos nulla cumque mollitia, maxime quod nesciunt, ratione distinctio recusandae nobis iusto ullam exercitationem. Maiores, omnis?</p>
+                    <a href="">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

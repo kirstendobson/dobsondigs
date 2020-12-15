@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DobsonDigs</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var stickyNavTop = $('.bottom_nav').offset().top;
+            var stickyNav = function(){
+                var scrollTop = $(window).scrollTop();
+                if(scrollTop > stickyNavTop) {
+                    $('.bottom_nav').addClass('sticky');
+                } else {
+                    $('.bottom_nav').removeClass('sticky');
+                }
+            };
+            stickyNav();
+            $(window).scroll(function() {
+                stickyNav();
+            });
+        })
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <div class="top_nav">
+                <div class="top_nav_left">
+                    <a href="/">Home</a>
+                    <a href="">About</a>
+                    <a href="/blog">Blog</a>
+                    <!--<a href="">Contact</a>-->
+                </div>
+                <div class="top_nav_right">
+                    <a href=""><img src="{% static 'img/Logos/Pinterest.png' %}" alt="Pinterest Logo"></a>
+                    <a href=""><img src="{% static 'img/Logos/Instagram.jpg' %}" alt="Instagram Logo"></a>
+                    <a href=""><img src="{% static 'img/Logos/Facebook.png' %}" alt="Facebook Logo"></a>
+                </div>
+            </div>
+            <div class="logo">
+                <img src="{% static 'img/DobsonDigs.jpg' %}" alt="DobsonDigs Logo">
+            </div>
+            <div class="bottom_nav">
+                <a href="/"><img src="{% static 'img/Home.png' %}" alt="Home Button"></a>
+                <a href="/properties">Our Own Digs</a>
+                {% for blog_section in all_blog_sections %}
+                    <a href="/blog/section_{{ blog_section.id }}">{{ blog_section.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="intro">
+            <img src="{% static 'img/welcome_banner.png' %}" alt="Placeholder for Intro Image">
+        </div>
+        <div id="recent_posts">
+            <h2>Recent Blog Posts</h2>
+            {% for post in posts %}
+                <div class="blog_preview">
+                    <a href="/blog/section_{{ post.blog_section.id }}/post_{{ post.id }}"><img src="{{ post.blog_post_logo.url }}" alt="{{ post.name }} Image"></a>
+                    <a href="/blog/section_{{ post.blog_section.id }}/post_{{ post.id }}"><h3>{{ post.title }}</h3></a>
+                    <a href="/blog/section_{{ post.blog_section.id }}/post_{{ post.id }}">Learn More</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
